@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ShotPin · 隐私政策与支持</title>
+<meta name="description" content="ShotPin 是一款离线的照片定位工具。本页包含隐私政策与技术支持信息。">
+<style>
+  :root{
+    --bg:#F6F2EA; --card:#FFFFFF; --ink:#26221C; --sub:#6E6659;
+    --line:#E4DCCD; --accent:#B8402F; --soft:#EDE6D8;
+  }
+  @media (prefers-color-scheme: dark){
+    :root{
+      --bg:#161412; --card:#211E19; --ink:#F2EDE4; --sub:#9C9387;
+      --line:#332E27; --accent:#D0453A; --soft:#2A251F;
+    }
+  }
+  *{box-sizing:border-box}
+  html{-webkit-text-size-adjust:100%}
+  body{
+    margin:0; background:var(--bg); color:var(--ink);
+    font:16px/1.75 -apple-system,BlinkMacSystemFont,"PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
+    padding:0 20px;
+  }
+  .wrap{max-width:680px;margin:0 auto;padding:56px 0 80px}
+  header{display:flex;align-items:baseline;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:8px}
+  .brand{font-size:15px;letter-spacing:.14em;text-transform:uppercase;color:var(--sub)}
+  nav a{color:var(--sub);text-decoration:none;font-size:14px;margin-left:18px;border-bottom:1px solid transparent}
+  nav a:hover{color:var(--accent);border-color:var(--accent)}
+  h1{font-size:30px;line-height:1.35;margin:26px 0 10px;letter-spacing:.01em;font-weight:600}
+  h2{font-size:19px;margin:44px 0 12px;font-weight:600;letter-spacing:.01em}
+  h3{font-size:15px;margin:24px 0 6px;font-weight:600;color:var(--ink)}
+  p,li{color:var(--ink);font-size:15.5px}
+  p.lead{color:var(--sub);font-size:16.5px;margin-top:0}
+  .rule{height:1px;background:var(--line);border:0;margin:34px 0}
+  ul{padding-left:1.15em}
+  li{margin:6px 0}
+  li::marker{color:var(--accent)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:22px 24px;margin:18px 0}
+  .q{font-weight:600;margin-top:20px}
+  .a{margin:4px 0 0;color:var(--sub)}
+  .a strong{color:var(--ink);font-weight:600}
+  code{background:var(--soft);padding:1px 6px;border-radius:5px;font-size:13.5px;
+       font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+  a{color:var(--accent);text-decoration:none;border-bottom:1px solid rgba(184,64,47,.32)}
+  a:hover{border-bottom-color:var(--accent)}
+  footer{margin-top:56px;padding-top:22px;border-top:1px solid var(--line);color:var(--sub);font-size:13.5px}
+  .date{color:var(--sub);font-size:13.5px;letter-spacing:.02em}
+  @media (max-width:520px){
+    .wrap{padding:36px 0 60px}
+    h1{font-size:25px}
+    .card{padding:18px 18px}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <div class="brand">ShotPin</div>
+    <nav>
+      <a href="#privacy">隐私政策</a>
+      <a href="#support">支持</a>
+    </nav>
+  </header>
+
+  <h1>把照片放回它被拍下的地方</h1>
+  <p class="lead">ShotPin 是一款离线的照片定位工具。点一下图钉记录 GPS 轨迹，回家选中照片，位置会按拍摄时间写回原图。不生成副本，不重新编码，不联网。</p>
+
+  <hr class="rule">
+
+  <h2 id="privacy">隐私政策</h2>
+  <p class="date">最后更新：2026 年 10 月 22 日</p>
+
+  <div class="card">
+    <p style="margin:0"><strong>一句话总结：ShotPin 不收集、不上传、不共享任何个人数据。</strong></p>
+  </div>
+
+  <h3>一、我们处理的数据</h3>
+  <ul>
+    <li><strong>位置数据</strong>：记录轨迹时读取设备位置，写入 App 沙盒内的本地文件（<code>Documents/Tracks</code>）。</li>
+    <li><strong>照片数据</strong>：仅在您主动选择照片时读取其拍摄时间与位置字段，并把算出的位置写回原照片。</li>
+    <li>以上数据全部保留在您的设备上，不会离开设备，开发者无法访问。</li>
+  </ul>
+
+  <h3>二、我们不做的事</h3>
+  <ul>
+    <li>不注册账号，不收集姓名、邮箱、手机号</li>
+    <li>不含任何分析、广告或埋点 SDK</li>
+    <li>不向第三方出售、共享或转让数据</li>
+    <li>不进行跨 App 或跨网站的追踪</li>
+  </ul>
+
+  <h3>三、第三方服务</h3>
+  <ul>
+    <li><strong>地图与地图瓦片</strong>：Apple Maps</li>
+    <li><strong>地名反查</strong>：Apple CLGeocoder</li>
+  </ul>
+  <p>以上请求由 Apple 按其隐私政策处理，ShotPin 自身不设服务器。</p>
+
+  <h3>四、您的控制权</h3>
+  <ul>
+    <li>可随时在「设置 → 隐私与安全性 → 定位服务」中关闭定位权限</li>
+    <li>可随时在「设置 → 隐私与安全性 → 照片」中关闭相册权限</li>
+    <li>可在 App 内删除单条轨迹，或卸载 App 一并清除全部本地数据</li>
+    <li>位置写入后如不满意，可在「照片」App 中重新编辑该照片的位置</li>
+  </ul>
+
+  <h3>五、儿童</h3>
+  <p>本 App 不面向 13 岁以下儿童，也不收集任何用户信息。</p>
+
+  <h3>六、联系方式</h3>
+  <p>如有疑问请致信：<a href="mailto:walter.j.king+china@outlook.com">walter.j.king+china@outlook.com</a></p>
+
+  <h3>七、变更</h3>
+  <p>本政策更新时会在本页面公布，并更新上方的日期。</p>
+
+  <hr class="rule">
+
+  <h2 id="support">技术支持</h2>
+  <p>遇到问题先看下面的常见情况。如果仍无法解决，直接发邮件，通常 1–2 天内回复。</p>
+
+  <div class="card">
+    <p style="margin:0 0 6px"><strong>联系方式</strong></p>
+    <p style="margin:0;color:var(--sub)">
+      邮箱：<a href="mailto:walter.j.king+china@outlook.com">walter.j.king+china@outlook.com</a><br>
+      开发者：Wei Jin<br>
+      系统要求：iOS 17.0 或更高版本，仅支持 iPhone
+    </p>
+  </div>
+
+  <h3>怎么用</h3>
+  <ul>
+    <li><strong>轨迹模式</strong>：点图钉开始记录 → 走完点结束 → 选择这段时间拍的照片 → 位置自动写入</li>
+    <li><strong>标记模式</strong>：只有一张照片时，在地图上点一下位置 → 选中照片 → 写入</li>
+  </ul>
+
+  <p class="q">位置写进去了，但「照片」App 里看不到？</p>
+  <p class="a">照片 App 有缓存。向上滑动关闭照片 App 再重新打开，或在「照片」里点开该图 → 上滑查看信息面板，位置通常在「地图」一栏下方。</p>
+
+  <p class="q">提示照片没有被修改？</p>
+  <p class="a">确认这张照片的拍摄时间落在轨迹的时间范围内。轨迹之外的时刻没有位置可算，需要用<strong>标记模式</strong>手动指定。另外，从 iCloud 下载的原始照片第一次处理可能稍慢。</p>
+
+  <p class="q">为什么记录时状态栏出现蓝色指示条？</p>
+  <p class="a">这是 iOS 对「正在使用定位」的标准提示，属于正常现象。只有您在前台点过图钉开始记录后才会出现，停止记录即消失。</p>
+
+  <p class="q">锁屏上的实时活动不显示？</p>
+  <p class="a">实时活动需要 iOS 16.1 以上，且仅在记录进行中显示。如果锁屏上没有，检查「设置 → 通知 → ShotPin → 实时活动」是否开启。</p>
+
+  <p class="q">能不能给几年前的老照片补位置？</p>
+  <p class="a">不能。ShotPin 需要先有轨迹才能推算位置，无法反过来从照片推断坐标。老照片可以用标记模式，在地图上手动点选位置后写入。</p>
+
+  <p class="q">轨迹会占很多空间吗？</p>
+  <p class="a">很小。每秒一个点的位置记录，连续记录 8 小时大约 2–4 MB。轨迹列表里可以直接删除不再需要的记录。</p>
+
+  <p class="q">换手机或卸载重装，数据还在吗？</p>
+  <p class="a">轨迹保存在 App 本地，不随 iCloud 同步。卸载 App 会一并清除。已经写进照片的位置属于照片本身，会随相册一起保留和同步。</p>
+
+  <footer>
+    <p style="margin:0">ShotPin · 由 Wei Jin 独立开发 · 本页同时作为 App Store 的隐私政策与技术支持页面</p>
+  </footer>
+
+</div>
+</body>
+</html>
