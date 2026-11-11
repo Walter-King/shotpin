@@ -1,0 +1,413 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>位置口令 · ShotPin</title>
+<meta name="description" content="输入 ShotPin 分享卡上的十位位置口令，找到照片拍下的地方。">
+<meta name="theme-color" content="#F2EDE4" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1B1917" media="(prefers-color-scheme: dark)">
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 97'%3E%3Cpath d='M21.5 58h33L38 96z' fill='%23C0392B'/%3E%3Ccircle cx='38' cy='38' r='38' fill='%23C0392B'/%3E%3Ccircle cx='38' cy='38' r='13.7' fill='%23F2EDE4'/%3E%3C/svg%3E">
+<style>
+:root{
+  --cream:#F2EDE4; --card:#FFFFFF; --ink:#2B2620; --sub:#8A8377;
+  --line:#E7DFD1; --red:#C0392B; --soft:#EDE6D8;
+  --dot:rgba(43,38,32,.055);
+  --shadow:0 24px 60px -34px rgba(43,38,32,.42);
+  --bar:rgba(242,237,228,.95);
+}
+@media (prefers-color-scheme: dark){
+  :root{
+    --cream:#1B1917; --card:#24211D; --ink:#F2EDE4; --sub:#9C9387;
+    --line:#35302A; --red:#D0453A; --soft:#2A251F;
+    --dot:rgba(242,237,228,.05);
+    --shadow:0 24px 60px -34px rgba(0,0,0,.75);
+    --bar:rgba(27,25,23,.95);
+  }
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{
+  margin:0; background:var(--cream); color:var(--ink);
+  font:16px/1.72 -apple-system,BlinkMacSystemFont,"SF Pro Text","PingFang SC","Hiragino Sans GB","Noto Sans SC","Microsoft YaHei",sans-serif;
+  -webkit-font-smoothing:antialiased;
+  background-image:radial-gradient(var(--dot) 1px, transparent 1px);
+  background-size:22px 22px;
+  min-height:100vh; display:flex; flex-direction:column;
+}
+a{color:var(--red);text-decoration:none;border-bottom:1px solid color-mix(in srgb, var(--red) 32%, transparent)}
+a:hover{border-bottom-color:var(--red)}
+:focus-visible{outline:2px solid var(--red);outline-offset:3px;border-radius:6px}
+
+.bar{position:sticky;top:0;z-index:20;background:var(--bar);
+  -webkit-backdrop-filter:saturate(1.3) blur(20px);backdrop-filter:saturate(1.3) blur(20px);
+  border-bottom:1px solid var(--line)}
+.bar-in{max-width:720px;margin:0 auto;padding:12px 22px;display:flex;align-items:center;justify-content:space-between;gap:16px}
+.brand{display:inline-flex;align-items:center;gap:9px;color:var(--ink);border:0;font-size:15px;font-weight:600}
+.brand svg{width:15px;height:19px;display:block}
+.back{font-size:13.5px;color:var(--sub);border:0}
+.back:hover{color:var(--ink)}
+
+main{flex:1;width:100%;max-width:560px;margin:0 auto;padding:56px 22px 40px}
+h1{font-size:clamp(27px,5vw,34px);line-height:1.2;letter-spacing:-.02em;margin:0 0 12px;font-weight:700}
+.lead{margin:0 0 30px;color:var(--sub);font-size:15.5px;max-width:32em}
+.lead b{color:var(--ink);font-weight:600}
+
+/* 输入区：一颗大输入框 + 按钮，没有别的干扰 */
+form{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:10px}
+input{
+  font:inherit; font-family:ui-monospace,SFMono-Regular,Meiryo,Menlo,monospace;
+  font-size:19px; letter-spacing:.14em; color:var(--ink);
+  background:var(--card); border:1px solid var(--line); border-radius:14px;
+  padding:14px 16px; width:100%; min-width:0;
+  transition:border-color .16s, box-shadow .16s;
+}
+input::placeholder{color:var(--sub);opacity:.6;letter-spacing:.1em;font-size:15px}
+input:focus{outline:none;border-color:color-mix(in srgb, var(--red) 46%, var(--line));
+  box-shadow:0 0 0 4px color-mix(in srgb, var(--red) 12%, transparent)}
+button{
+  font:inherit;font-size:15px;font-weight:600;color:var(--cream);
+  background:var(--ink);border:0;border-radius:14px;padding:0 22px;cursor:pointer;
+  transition:transform .12s, opacity .16s;
+}
+button:hover{opacity:.9}
+button:active{transform:scale(.98)}
+@media (max-width:430px){
+  form{grid-template-columns:1fr}
+  button{padding:13px 22px}
+}
+
+.msg{margin:12px 2px 0;font-size:13.5px;color:var(--sub);min-height:1.4em}
+.msg.bad{color:var(--red)}
+
+/* 结果卡 */
+.out{margin-top:26px;background:var(--card);border:1px solid var(--line);border-radius:20px;
+  padding:22px 24px 20px;box-shadow:var(--shadow);animation:rise .38s cubic-bezier(.2,.7,.2,1) both}
+@keyframes rise{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@media (prefers-reduced-motion: reduce){ .out{animation:none} }
+
+.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:13px;
+  letter-spacing:.18em;color:var(--sub);margin:0 0 14px}
+.dms{margin:0;font-size:clamp(17px,3.4vw,21px);font-weight:600;letter-spacing:.01em;
+  font-variant-numeric:tabular-nums;line-height:1.5}
+.dec{margin:6px 0 0;font-size:13.5px;color:var(--sub);font-variant-numeric:tabular-nums}
+.acc{margin:14px 0 0;font-size:12.5px;color:var(--sub)}
+
+.actions{display:flex;flex-wrap:wrap;gap:9px;margin-top:20px;padding-top:18px;border-top:1px solid var(--line)}
+.actions a,.actions button.ghost{
+  display:inline-flex;align-items:center;gap:7px;
+  font-size:13.5px;font-weight:600;color:var(--ink);background:var(--soft);
+  border:0;border-radius:999px;padding:9px 16px;cursor:pointer;text-decoration:none;
+  transition:background .16s;
+}
+.actions a:hover,.actions button.ghost:hover{background:color-mix(in srgb, var(--red) 12%, var(--soft));border-bottom:0}
+.actions .primary{color:var(--cream);background:var(--ink)}
+.actions .primary:hover{background:var(--ink);opacity:.9}
+.actions svg{width:13px;height:13px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+
+/* 说明 */
+.notes{margin-top:34px;font-size:13.5px;color:var(--sub);line-height:1.8}
+.notes h2{font-size:13px;letter-spacing:.1em;text-transform:uppercase;color:var(--sub);
+  font-weight:600;margin:0 0 10px}
+.notes p{margin:0 0 12px}
+.notes b{color:var(--ink);font-weight:600}
+.notes code{background:var(--soft);padding:1px 6px;border-radius:5px;
+  font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12.5px;color:var(--ink)}
+
+footer{border-top:1px solid var(--line);padding:22px 0 34px;color:var(--sub);font-size:12.5px;line-height:1.9}
+footer .wrap{max-width:560px;margin:0 auto;padding:0 22px}
+footer a{color:var(--sub);border-bottom-color:var(--line)}
+footer a:hover{color:var(--ink);border-bottom-color:var(--ink)}
+
+/* 刚粘进来时闪一下，让人知道输入被接住了 */
+input.flash{animation:flash .5s ease-out}
+@keyframes flash{0%{border-color:var(--red);box-shadow:0 0 0 6px color-mix(in srgb, var(--red) 16%, transparent)}100%{}}
+</style>
+</head>
+<body>
+
+<header class="bar">
+  <div class="bar-in">
+    <a class="brand" href="../">
+      <svg viewBox="0 0 76 97" aria-hidden="true"><path d="M21.5 58h33L38 96z" fill="currentColor" opacity=".92"/><circle cx="38" cy="38" r="38" fill="#C0392B"/><circle cx="38" cy="38" r="13.7" fill="#F2EDE4"/></svg>
+      ShotPin
+    </a>
+    <a class="back" href="../">← 返回</a>
+  </div>
+</header>
+
+<main>
+  <h1>位置口令</h1>
+  <p class="lead">把分享卡上那十位字符输进来，就能找到照片拍下的地方。<b>它不联网也能用</b>——码里就是坐标本身。</p>
+
+  <form id="form" autocomplete="off">
+    <input id="code" type="text" inputmode="text" spellcheck="false" autocapitalize="off"
+           autocorrect="off" maxlength="20" placeholder="例如 wtw3sjq6qw" aria-label="十位位置口令">
+    <button type="submit">查找</button>
+  </form>
+  <p class="msg" id="msg" role="status" aria-live="polite"></p>
+
+  <section class="out" id="out" hidden aria-live="polite">
+    <p class="code" id="outCode"></p>
+    <p class="dms" id="outDms"></p>
+    <p class="dec" id="outDec"></p>
+    <p class="acc" id="outAcc"></p>
+    <div class="actions">
+      <a class="primary" id="apple" target="_blank" rel="noopener">
+        <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s7-6.1 7-11a7 7 0 10-14 0c0 4.9 7 11 7 11z"/><circle cx="12" cy="10" r="2.6"/></svg>
+        在苹果地图打开
+      </a>
+      <a id="google" target="_blank" rel="noopener">Google 地图</a>
+      <a id="amap" target="_blank" rel="noopener">高德地图</a>
+      <button class="ghost" type="button" id="copy">复制坐标</button>
+    </div>
+  </section>
+
+  <div class="notes">
+    <h2>关于这串码</h2>
+    <p>它叫 Geohash，九位约等于 <b>5 × 5 米</b>，够找回拍摄的那一格路口；第十位是校验位，抄错一个字会直接提示「码不对」，而不是把你导到别处。</p>
+    <p>字母表里没有 <code>a</code> <code>i</code> <code>l</code> <code>o</code>——正是为了手抄时不和 <code>0</code>、<code>1</code> 看混。大小写都可以，中间的空格和换行会被忽略。</p>
+    <p>码里存的是照片的原始坐标（WGS-84），所以抄到地球、OpenStreetMap 上都落在同一个点。苹果地图与高德在中国大陆用的是另一套偏移坐标，这一页会自动换算，你不需要做任何事。</p>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    ShotPin · 位置与照片不出这台设备 · <a href="../#privacy">隐私政策</a>
+  </div>
+</footer>
+
+<script>
+(function () {
+  "use strict";
+
+  var ALPHABET = "0123456789bcdefghjkmnpqrstuvwxyz";
+  var BODY_LEN = 9;
+
+  var $ = function (id) { return document.getElementById(id); };
+  var input = $("code");
+  var msg = $("msg");
+  var out = $("out");
+
+  /* ── 编解码 ───────────────────────────── */
+
+  // 与前九位一起决定第十位：Σ 序号 × 位置，再对 32 取模。
+  // 权重跟着位置变（第一位 ×1、最后一位 ×9），两位对调才会算出另一个结果
+  function checksum(body) {
+    var sum = 0;
+    for (var i = 0; i < body.length; i++) {
+      var v = ALPHABET.indexOf(body.charAt(i));
+      if (v < 0) return null;
+      sum += v * (i + 1);
+    }
+    return ALPHABET.charAt(sum % ALPHABET.length);
+  }
+
+  // 只留下字母表里有的字符：用户从卡片上抄，常带空格、换行、连字符
+  function normalize(raw) {
+    var lower = (raw || "").toLowerCase();
+    var kept = "";
+    for (var i = 0; i < lower.length; i++) {
+      if (ALPHABET.indexOf(lower.charAt(i)) >= 0) kept += lower.charAt(i);
+    }
+    return kept;
+  }
+
+  // geohash 解码：每位 5 bit，经度先切、纬度后切
+  function decode(body) {
+    var lat = [-90, 90], lon = [-180, 180];
+    var even = true;
+    for (var i = 0; i < body.length; i++) {
+      var idx = ALPHABET.indexOf(body.charAt(i));
+      if (idx < 0) return null;
+      for (var bit = 16; bit >= 1; bit = bit >> 1) {
+        var on = (idx & bit) !== 0;
+        if (even) {
+          var midLon = (lon[0] + lon[1]) / 2;
+          if (on) lon[0] = midLon; else lon[1] = midLon;
+        } else {
+          var midLat = (lat[0] + lat[1]) / 2;
+          if (on) lat[0] = midLat; else lat[1] = midLat;
+        }
+        even = !even;
+      }
+    }
+    return {
+      lat: (lat[0] + lat[1]) / 2,
+      lon: (lon[0] + lon[1]) / 2,
+      latErr: (lat[1] - lat[0]) / 2,
+      lonErr: (lon[1] - lon[0]) / 2
+    };
+  }
+
+  /* ── 坐标格式 ─────────────────────────── */
+
+  function pad(n, width, ch) {
+    var s = String(n);
+    while (s.length < width) s = (ch || "0") + s;
+    return s;
+  }
+
+  function dms(value, positive, negative) {
+    var total = Math.round(Math.abs(value) * 3600);
+    var d = Math.floor(total / 3600);
+    var m = Math.floor((total % 3600) / 60);
+    var s = total % 60;
+    return d + "°" + pad(m, 2) + "′" + pad(s, 2) + "″" + (value >= 0 ? positive : negative);
+  }
+
+  function formatDms(lat, lon) {
+    return dms(lat, "N", "S") + " " + dms(lon, "E", "W");
+  }
+
+  function formatDec(lat, lon) {
+    return lat.toFixed(6) + ", " + lon.toFixed(6);
+  }
+
+  /* ── WGS-84 → GCJ-02 ──────────────────────
+     中国的底图（苹果地图、高德）用的是偏移过的坐标。码里存的是原始坐标，
+     直接拿去开地图会落到东南方向几百米外，所以在这里换算一次。 */
+
+  var PI = Math.PI, A = 6378245.0, EE = 0.00669342162296594323;
+
+  function outOfChina(lat, lon) {
+    return !(lon > 73.66 && lon < 135.05 && lat > 3.86 && lat < 53.55);
+  }
+
+  function transformLat(x, y) {
+    var r = -100 + 2 * x + 3 * y + 0.2 * y * y + 0.1 * x * y + 0.2 * Math.sqrt(Math.abs(x));
+    r += (20 * Math.sin(6 * x * PI) + 20 * Math.sin(2 * x * PI)) * 2 / 3;
+    r += (20 * Math.sin(y * PI) + 40 * Math.sin(y / 3 * PI)) * 2 / 3;
+    r += (160 * Math.sin(y / 12 * PI) + 320 * Math.sin(y * PI / 30)) * 2 / 3;
+    return r;
+  }
+
+  function transformLon(x, y) {
+    var r = 300 + x + 2 * y + 0.1 * x * x + 0.1 * x * y + 0.1 * Math.sqrt(Math.abs(x));
+    r += (20 * Math.sin(6 * x * PI) + 20 * Math.sin(2 * x * PI)) * 2 / 3;
+    r += (20 * Math.sin(x * PI) + 40 * Math.sin(x / 3 * PI)) * 2 / 3;
+    r += (150 * Math.sin(x / 12 * PI) + 300 * Math.sin(x / 30 * PI)) * 2 / 3;
+    return r;
+  }
+
+  function wgsToGcj(lat, lon) {
+    if (outOfChina(lat, lon)) return [lat, lon];
+    var dLat = transformLat(lon - 105, lat - 35);
+    var dLon = transformLon(lon - 105, lat - 35);
+    var radLat = lat / 180 * PI;
+    var magic = Math.sin(radLat);
+    magic = 1 - EE * magic * magic;
+    var sqrtMagic = Math.sqrt(magic);
+    dLat = (dLat * 180) / ((A * (1 - EE)) / (magic * sqrtMagic) * PI);
+    dLon = (dLon * 180) / (A / sqrtMagic * Math.cos(radLat) * PI);
+    return [lat + dLat, lon + dLon];
+  }
+
+  /* ── 界面 ─────────────────────────────── */
+
+  var current = null;
+
+  function showError(text) {
+    out.hidden = true;
+    msg.className = "msg bad";
+    msg.textContent = text;
+    current = null;
+  }
+
+  function run(raw) {
+    var cleaned = normalize(raw);
+    if (!cleaned) {
+      msg.className = "msg";
+      msg.textContent = "";
+      out.hidden = true;
+      return;
+    }
+    if (cleaned.length < BODY_LEN + 1) {
+      msg.className = "msg";
+      msg.textContent = "还差 " + (BODY_LEN + 1 - cleaned.length) + " 位。卡片上是两行五个字符，一共十位。";
+      out.hidden = true;
+      return;
+    }
+    if (cleaned.length > BODY_LEN + 1) {
+      showError("这串有 " + cleaned.length + " 位，比十位多。只输卡片上那十个字符就好。");
+      return;
+    }
+
+    var body = cleaned.slice(0, BODY_LEN);
+    var check = cleaned.charAt(BODY_LEN);
+    if (checksum(body) !== check) {
+      showError("校验位对不上——大概抄错了一个字符。码是 " + body + "，最后一位应该是 "
+        + checksum(body) + "。");
+      return;
+    }
+
+    var point = decode(body);
+    if (!point) { showError("这段码读不出来。"); return; }
+    current = point;
+
+    msg.className = "msg";
+    msg.textContent = "";
+
+    out.hidden = false;
+    $("outCode").textContent = body.slice(0, 5) + " " + body.slice(5) + " · " + check;
+    $("outDms").textContent = formatDms(point.lat, point.lon);
+    $("outDec").textContent = formatDec(point.lat, point.lon);
+
+    // 格子尺寸是误差的两倍：±2.4 米的意思是「这一格约 4.8 米见方」
+    var metres = Math.max(point.latErr * 111320,
+      point.lonErr * 111320 * Math.cos(point.lat * PI / 180)) * 2;
+    $("outAcc").textContent = "这一格约 " + Math.round(metres) + " 米见方——照片拍在这一格里的某处。";
+
+    var gcj = wgsToGcj(point.lat, point.lon);
+    $("apple").href = "https://maps.apple.com/?ll=" + gcj[0].toFixed(6) + "," + gcj[1].toFixed(6);
+    $("google").href = "https://www.google.com/maps/search/?api=1&query="
+      + point.lat.toFixed(6) + "," + point.lon.toFixed(6);
+    // 高德要的是经度在前，且坐标已偏移
+    $("amap").href = "https://uri.amap.com/marker?position="
+      + gcj[1].toFixed(6) + "," + gcj[0].toFixed(6) + "&name=ShotPin&coordinate=gaode&callnative=0";
+  }
+
+  input.addEventListener("input", function () { run(input.value); });
+
+  $("form").addEventListener("submit", function (event) {
+    event.preventDefault();
+    run(input.value);
+    if (msg.className.indexOf("bad") < 0 && current === null) {
+      msg.textContent = "把卡片上的十位字符输进来。";
+    }
+  });
+
+  $("copy").addEventListener("click", function () {
+    if (!current) return;
+    var text = formatDec(current.lat, current.lon);
+    var done = function () {
+      var button = $("copy");
+      var old = button.textContent;
+      button.textContent = "已复制";
+      setTimeout(function () { button.textContent = old; }, 1600);
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(done, done);
+    } else {
+      var area = document.createElement("textarea");
+      area.value = text;
+      document.body.appendChild(area);
+      area.select();
+      try { document.execCommand("copy"); } catch (e) {}
+      document.body.removeChild(area);
+      done();
+    }
+  });
+
+  // 链接里带 ?c= 就直接算：以后卡片上印二维码之外的短链时能用
+  var preset = new URLSearchParams(location.search).get("c");
+  if (preset) {
+    input.value = preset;
+    input.classList.add("flash");
+    run(preset);
+  }
+})();
+</script>
+</body>
+</html>
