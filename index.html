@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>ShotPin · 把照片钉在地图上，再做成一张卡</title>
-<meta name="description" content="ShotPin 把照片按拍摄时间「钉」回地图，位置写回原图；也能把一次出行做成带地图的分享卡——平铺、即时成像与明信片。不生成副本、不重新编码、不上传。">
+<meta name="description" content="ShotPin 把照片按拍摄时间「钉」回地图，位置写回原图；也能把一次出行做成带地图的分享卡——平铺、即时成像、明信片与地图册。默认不改动文件、不重新编码、不上传。">
 <meta name="theme-color" content="#F2EDE4" media="(prefers-color-scheme: light)">
 <meta name="theme-color" content="#1B1917" media="(prefers-color-scheme: dark)">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 76 97'%3E%3Cpath d='M21.5 58h33L38 96z' fill='%23C0392B'/%3E%3Ccircle cx='38' cy='38' r='38' fill='%23C0392B'/%3E%3Ccircle cx='38' cy='38' r='13.7' fill='%23F2EDE4'/%3E%3C/svg%3E">
@@ -145,7 +145,7 @@ h2{font-size:clamp(22px,2.4vw,27px);letter-spacing:-.01em;margin:0;font-weight:6
 .ico svg{width:17px;height:17px;stroke:var(--red);fill:none;stroke-width:1.7;
   stroke-linecap:round;stroke-linejoin:round}
 
-/* ── 三套版式 ───────────────────────────── */
+/* ── 四套版式 ───────────────────────────── */
 .templates{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px}
 .tmpl{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:16px 16px 18px}
 .tmpl h3{margin:14px 0 5px;font-size:15px;font-weight:650;display:flex;align-items:baseline;gap:8px}
@@ -187,6 +187,28 @@ h2{font-size:clamp(22px,2.4vw,27px);letter-spacing:-.01em;margin:0;font-weight:6
 .mini-post .b .mp{position:absolute;inset:5px;height:auto}
 .mini-post .b .st{position:absolute;right:6px;top:6px;width:15px;height:19px;
   background:#DDD5C6;border-radius:1px;outline:1px dashed rgba(43,38,32,.22);outline-offset:-1px}
+
+/* 地图册：一本摊开的 zine。地图铺满跨页，照片与便签斜着贴上去 */
+.mini-atlas{width:166px;height:112px;position:relative;overflow:hidden;background:#D9E7EF}
+.mini-atlas .fd{position:absolute;left:50%;top:0;bottom:0;width:1px;
+  background:rgba(43,38,32,.12);box-shadow:0 0 10px 3px rgba(43,38,32,.05)}
+.mini-atlas .ph{position:absolute;left:22px;top:32px;width:58px;height:42px;
+  border:4px solid var(--paper);transform:rotate(-7deg);
+  box-shadow:0 8px 16px -10px rgba(43,38,32,.65)}
+.mini-atlas .rd{position:absolute;left:75%;top:40%;width:7px;height:7px;border-radius:50%;
+  background:var(--red);border:2px solid var(--paper);transform:translate(-50%,-50%)}
+.mini-atlas .nt{position:absolute;left:99px;top:55px;width:46px;height:16px;
+  background:#F2D75B;transform:rotate(-4deg);border-radius:1px;
+  box-shadow:0 4px 8px -5px rgba(43,38,32,.55)}
+.mini-atlas .nt::before,.mini-atlas .nt::after{content:"";position:absolute;left:4px;
+  height:2px;border-radius:2px;background:rgba(59,52,38,.55)}
+.mini-atlas .nt::before{top:4px;width:26px}
+.mini-atlas .nt::after{top:9px;width:34px;background:rgba(59,52,38,.32)}
+.mini-atlas .br{position:absolute;left:8px;top:8px;width:34px;height:7px;border-radius:4px;
+  background:rgba(253,251,247,.92)}
+.mini-atlas .mk{position:absolute;right:8px;bottom:8px;width:14px;height:14px;border-radius:2px;
+  background:var(--paper);box-shadow:0 3px 6px -3px rgba(43,38,32,.6)}
+.mini-atlas .mk::after{content:"";position:absolute;inset:3px;background:var(--ink);opacity:.8}
 
 /* ── 位置标记三选一 ─────────────────────── */
 .marks{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px;margin-top:26px}
@@ -335,10 +357,10 @@ footer a:hover{color:var(--ink);border-bottom-color:var(--ink)}
     <div class="hero-copy">
       <p class="eyebrow">iPhone · iPad · iOS 17 起</p>
       <h1>把照片<em>钉</em>在地图上</h1>
-      <p class="lead">点一下图钉开始记录，走完点结束。选中这段时间拍的照片，位置会按拍摄时间写回<strong>原图</strong>——不生成副本、不重新编码。想发出去时，它还能变成一张带地图的卡片。</p>
+      <p class="lead">点一下图钉开始记录，走完点结束。选中这段时间拍的照片，位置会按拍摄时间写回<strong>原图</strong>——默认不改动文件本身、不重新编码。需要文件本身带位置时（发网盘、传电脑），可以另存一份带 GPS 的 JPEG。想发出去时，它还能变成一张带地图的卡片。</p>
       <ul class="points">
         <li>写回原图</li>
-        <li>三种卡片版式</li>
+        <li>四种卡片版式</li>
         <li>位置口令</li>
         <li>记录可暂停</li>
         <li>四种语言</li>
@@ -388,7 +410,7 @@ footer a:hover{color:var(--ink);border-bottom-color:var(--ink)}
         </div>
         <div class="pc-code">
           <div class="place"><b>油尖旺区</b>22°17′35″N 114°10′20″E</div>
-          <div class="digits">wecny<br>43dj3<small>位置口令</small></div>
+          <div class="digits">wecny<br>43dmp<small>位置口令</small></div>
         </div>
       </div>
 
@@ -404,7 +426,7 @@ footer a:hover{color:var(--ink);border-bottom-color:var(--ink)}
       <article class="card">
         <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="5" width="18" height="14" rx="2.5"/><circle cx="9" cy="10" r="1.6"/><path d="M4 17l4.5-4.5L12 16l3-3 5 5"/></svg></div>
         <h3>写回原图，不动像素</h3>
-        <p>位置直接写进照片的元数据，不复制、不重新压缩。相册里点开那张照片、上滑看信息面板，位置就在那儿。</p>
+        <p>位置直接写进照片的元数据，不复制、不重新压缩。相册里点开那张照片、上滑看信息面板，位置就在那儿。要让文件本身也带着位置（发网盘、导进电脑），标记时勾一下，会另存一份带 GPS 的 JPEG，原图仍然不动。</p>
       </article>
 
       <article class="card">
@@ -428,7 +450,7 @@ footer a:hover{color:var(--ink);border-bottom-color:var(--ink)}
       <article class="card">
         <div class="ico"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="16" rx="2.5"/><path d="M3 8.5h18M8 8.5V20"/><circle cx="16" cy="14" r="2.4"/></svg></div>
         <h3>分享卡片</h3>
-        <p>把一次出行做成一张带地图的卡：平铺、即时成像、明信片三种版式，可换配色，还能放二维码或一串位置口令。</p>
+        <p>把一次出行做成一张带地图的卡：平铺、即时成像、明信片与地图册四种版式，可换配色，还能放二维码或一串位置口令。</p>
       </article>
 
       <article class="card">
@@ -442,7 +464,7 @@ footer a:hover{color:var(--ink);border-bottom-color:var(--ink)}
 
   <!-- ── 分享卡 ── -->
   <section class="block" id="card">
-    <div class="sec-head"><h2>分享卡片</h2><span>三套版式，一张图说清「这是哪儿」</span></div>
+    <div class="sec-head"><h2>分享卡片</h2><span>四套版式，一张图说清「这是哪儿」</span></div>
     <p class="intro">卡片在 App 里合成，<b>不上传</b>。选好版式再挑照片，地图范围、照片裁切、地名、配色都能改；预览什么样，存到相册就是什么样。</p>
 
     <div class="templates">
@@ -479,23 +501,38 @@ footer a:hover{color:var(--ink);border-bottom-color:var(--ink)}
         <p>正反两面：正面一张横照片，反面是地图、邮票（同一张照片）、地名与邮戳。</p>
       </div>
 
+      <div class="tmpl">
+        <div class="shot">
+          <div class="mini mini-atlas">
+            <div class="fd"></div>
+            <div class="ph"></div>
+            <div class="rd"></div>
+            <div class="nt"></div>
+            <div class="br"></div>
+            <div class="mk"></div>
+          </div>
+        </div>
+        <h3>地图册 <span>付费</span></h3>
+        <p>地图铺满摊开的两页，照片斜贴在左页，地名与坐标写在右页的便签上。</p>
+      </div>
+
     </div>
 
     <div class="marks">
       <div class="mark">
-        <span class="tag">不加</span>
+        <span class="tag">无</span>
         <h4>只留地名与坐标</h4>
         <p>卡片右下角空着，最干净。地名与经纬度照旧在底栏（明信片则在反面）。</p>
       </div>
       <div class="mark">
         <span class="tag">二维码</span>
         <h4>扫一下直接开地图</h4>
-        <p>扫码跳到苹果地图，那个点上也带着地名。缺点是怕压缩——平台压一次图，码可能就糊了。</p>
+        <p>扫码直接给出一条到那里的路线，起点按当前位置算。缺点是怕压缩——平台压一次图，码可能就糊了。</p>
       </div>
       <div class="mark">
         <span class="tag">位置口令</span>
-        <h4 class="mono">wecny43dj3</h4>
-        <p>十位字符，手抄也不会错（字母表里没有 a i l o）。压不糊，看图的人到本页输一下就能找到地方。<a href="s/">打开口令页 →</a></p>
+        <h4 class="mono">wecny43dmp</h4>
+        <p>十位字符，抄错一位会当场指出来，不会把人导到海里。压不糊，看图的人到本页输一下就能找到地方。<a href="s/">打开口令页 →</a></p>
       </div>
     </div>
   </section>
@@ -557,14 +594,16 @@ footer a:hover{color:var(--ink);border-bottom-color:var(--ink)}
           <li>选中照片，<b>位置写回原图</b></li>
           <li>ShotPin 备份与恢复</li>
           <li>平铺分享卡（四种比例）</li>
+          <li>纸色卡片配色</li>
+          <li>卡片上的<b>二维码</b>与<b>位置口令</b>，以及输入别人的口令</li>
         </ul>
       </div>
       <div class="tier tier-pay">
         <h3>付费版</h3>
         <p class="price">¥6 一次买断 · 或 ¥1 / 月支持开发</p>
         <ul>
-          <li><b>即时成像与明信片</b>两套版式</li>
-          <li>卡片上的<b>二维码</b>与<b>位置口令</b></li>
+          <li><b>即时成像、明信片与地图册</b>三套版式</li>
+          <li>樱花卡片配色</li>
           <li>两套主题（樱花季）与后续新主题</li>
           <li>导出 GPX / KML、从「文件」导入照片</li>
         </ul>
@@ -654,12 +693,12 @@ footer a:hover{color:var(--ink);border-bottom-color:var(--ink)}
 
       <details>
         <summary>卡片上的二维码扫不开？</summary>
-        <p>多半是图片被平台压缩过。改选<strong>位置口令</strong>：一串十位字符，压糊了也看得清，看图的人到 <a href="s/">口令页</a> 输进去就行。</p>
+        <p>多半是图片被平台压缩过。改选<strong>位置口令</strong>：一串十位字符，压糊了也看得清，看图的人打开 ShotPin 的「功能一览」输进去就行，不装 App 也可以用 <a href="s/">口令页</a>。</p>
       </details>
 
       <details>
         <summary>位置口令怎么用？</summary>
-        <p>打开 <a href="s/">shotpin 口令页</a>，把卡片上的十位字符输进去（空格、大小写都不影响），会显示坐标并给出地图链接。码里是照片的原始坐标，这一页不联网也能用。</p>
+        <p>打开 ShotPin，点主页右上角那颗「输入框 + 铅笔」的按钮，把卡片上那十位字符输进去（空格、大小写都不影响），就会给出坐标并在系统地图里打开。没有装 App 的人可以用 <a href="s/">口令页</a>，同样是免费、不联网。</p>
       </details>
 
       <details>
